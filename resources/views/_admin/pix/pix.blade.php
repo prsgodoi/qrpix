@@ -1,0 +1,1 @@
+pix.blade.php
