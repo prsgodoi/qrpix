@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PixController;
+use App\Http\Controllers\BancoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,21 +19,16 @@ use App\Http\Controllers\PixController;
 Route::get('/', function () {
     return view('welcome');
 });
-/*
-Route::get('/pix', function () {
-    return view('qrcode');
+
+
+Route::group([
+    'prefix' => '/banco',
+    'as' => 'banco.',
+], function () {
+    Route::get('/', [BancoController::class, 'index'])->name('index');
+    Route::post('store', [BancoController::class, 'store'])->name('store');
 });
 
-
-
-Route::get('/test', [PixController::class, 'create']);
-
-
-Route::get('/download', function () {
-    return view('download');
-});
-Route::post('/download', 'PixController@storeImageHtmlCanvas');
-*/
 
 Route::group([
     'prefix' => '/pix',

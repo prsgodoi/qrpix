@@ -49,12 +49,6 @@ class PixController extends Controller
 
         $pix->save();
 
-        //
-        if (file_exists($pix->qrcode_path)) {
-            
-        }
-        //
-
         return redirect()->route('pix.show', $pix->id);
     }
 
