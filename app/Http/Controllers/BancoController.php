@@ -41,6 +41,8 @@ class BancoController extends Controller
     public function store(Request $request)
     {
         //
+        $banco = new Banco;
+
         $total = $request->input('total');
 
         $amount = preg_replace('/[^0-9]/', '', $total);    
@@ -49,9 +51,13 @@ class BancoController extends Controller
 
         $total = $amount;
 
+        $n = rand(1, 9999999);
+        $transaction_id = 'UTIL-PIX-' . str_pad(str_pad($n, 7, 0, STR_PAD_LEFT), 7, "0", STR_PAD_LEFT);
+
         try {
             $payload = (new Payload())
                 ->pixKey($request->input('key'))
+                ->description($request->input('description'))
                 ->merchantName($request->input('recipient'))
                 ->merchantCity($request->input('city'))
                 ->amount($total)
@@ -67,7 +73,7 @@ class BancoController extends Controller
         }
 
         //
-        $banco = new Banco;
+        
         $banco->name = $request->input('name');
         $banco->pix = $payload_string;
         $banco->total = $total;
@@ -79,6 +85,8 @@ class BancoController extends Controller
         $qrPatch = asset('qrcode/'.$fileName);
 
         $banco->qrcode_path = $qrPatch;
+
+        $banco->transaction_id = $transaction_id;
 
         $banco->save();
 

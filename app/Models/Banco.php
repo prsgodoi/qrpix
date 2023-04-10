@@ -26,6 +26,7 @@ class Banco extends Model
         'name',
         'pix',
         'total',
-        'qrcode_path'
+        'qrcode_path',
+        'transaction_id'
     ];
 }

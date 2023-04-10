@@ -56,6 +56,9 @@
 							<div class="mb-3">
 								<label for="description" class="form-label">Identificador da Transação</label>
 								{!! Form::text('description', '***', array('id' => 'description', 'class' => 'form-control', 'placeholder' =>'PGTOFAT0001', 'required' => 'required')) !!}
+								<div id="defaultFormControlHelp" class="form-text">
+									(opcional - sem espaço [até 20 letras e/ou números])
+								</div>
 							</div>
 
 							<div class="mb-3">
@@ -76,12 +79,11 @@
 				<div class="card-body px-0">
 					<h4>Dados</h4>
 					<div class="mb-3">
-						<label for="key" class="form-label">Chave Aleatória</label>
+						<label for="key" class="form-label">chave Pix</label>
 						<input
 						class="form-control"
 						type="text"
 						id="key"
-						placeholder="3dcefd46-ce05-4b7d-854f-db12baadd9d8"
 						readonly
 						/>
 					</div>
@@ -112,7 +114,7 @@
 					<p>Os QR Codes não foram testados em todos os bancos, antes de transferir utilizando o QR Code, verifique se as informações estão corretas. O site se isenta de qualquer responsabilidade pela exatidão e integridade das informações divulgada.</p>
 					<h5>Qual tipo de QR Code?</h5>
 					<p>O QR Code PIX <b>Estático</b>, ele pode ser usado para mais de uma transação. Pode, inclusive, ser impresso.</p>
-					<p>A geração do QR Code <b>Estático</b> é feita sem nenhuma integração com o sistema PIX e bancos, é apenas uma forma de exibir os dados PIX em formato Qr Code.</p>
+					<p>A geração do QR Code PIX <b>Estático</b> é feita sem nenhuma integração com o sistema PIX e bancos, é apenas uma forma de exibir os dados PIX em formato QR Code.</p>
 					<p>É obrigatório inserir o nome do cliente e o valor da transferência. </p>
 					<h3>Dúvidas sobre o como usar?</h3>
 						<ul>

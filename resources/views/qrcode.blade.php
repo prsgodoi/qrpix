@@ -97,5 +97,19 @@
 	</div>
 </div>
 
-
 @endsection
+
+@push('scripts')
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="{{ asset('_theme/assets/vendor/libs/jquery/jquery.js') }}"></script>
+<script src="{{ asset('_theme/assets/vendor/libs/popper/popper.js') }}"></script>
+<script src="{{ asset('_theme/assets/vendor/js/bootstrap.js') }}"></script>
+
+<script src="{{ asset('js/jquery.maskMoney.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#total').maskMoney();
+	})
+</script>
+@endpush
