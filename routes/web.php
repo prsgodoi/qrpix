@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\BancoController;
 
+use App\Http\Controllers\LinkController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/download', function () {
+    return view('download');
+});
+Route::post('download', [PixController::class, 'base64'])->name('base64');
 
 Route::group([
     'prefix' => '/banco',
@@ -41,3 +47,8 @@ Route::group([
     Route::get('qrcode/{id}/download',[PixController::class, 'download'])->name('download');
 
 });
+
+Route::get('/l/{short_link}', [LinkController::class, 'redirect'])->name('redirect');
+
+//
+Route::get('checkout/v1/payment/redirect/{id}',[LinkController::class, 'show'])->name('show');

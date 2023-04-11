@@ -54,7 +54,7 @@
 								</div>
 							</div>
 							<div class="mb-3">
-								<label for="description" class="form-label">Identificador da Transação</label>
+								<label for="description" class="form-label">Descrição do Pagamento</label>
 								{!! Form::text('description', '***', array('id' => 'description', 'class' => 'form-control', 'placeholder' =>'PGTOFAT0001', 'required' => 'required')) !!}
 								<div id="defaultFormControlHelp" class="form-text">
 									(opcional - sem espaço [até 20 letras e/ou números])

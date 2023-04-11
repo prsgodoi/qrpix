@@ -9,6 +9,9 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Http\Request;
 use Storage;
 
+use Illuminate\Support\Str;
+use App\Models\Link;
+
 class PixController extends Controller
 {
     /**
@@ -48,6 +51,14 @@ class PixController extends Controller
         $pix->qrcode_path = $qrPatch;
 
         $pix->save();
+
+        //
+        $url = new Link([
+            'name' => $pix->name,
+            'target_url' => '/checkout/v1/payment/redirect/'.$pix->id,
+            'short_link' => Str::random(8),
+        ]);
+        $url->saveOrFail();
 
         return redirect()->route('pix.show', $pix->id);
     }
@@ -99,5 +110,19 @@ class PixController extends Controller
 
         return response()->download($path);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function base64()
+    {
+        //
+        $data = $_REQUEST['base64data']; // your base64 encoded     
+        $path = explode('base64', $data);
+        Storage::disk('local')->put(date('d-m-Y_his_a', time()).'_pix.png', base64_decode($path[1]));
+        $path = Storage::path(date('d-m-Y_his_a', time()).'_pix.png');
+
+        return response()->download($path);
+    } 
 
 }

@@ -1,62 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Canvas Jquery Code for saving screenshot -->
-    <meta name="csrf-token" content="{{ csrf_token() }}" /> 
-    <meta name="screenShot" content="{{url('htmlcanvas')}}">
-    <title></title>
+	<title></title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
+
 <body>
-   <div class="container">
-       <div class="content">
-           <div id='calendar'>-- Data I want to convert to image --</div>
 
-            <form method="post" enctype="multipart/form-data" id="myForm">
-                {{csrf_field()}}
-                <input type="hidden" name="img_val" id="img_val" value="" />
-                <input type="submit" id="take_shot" value="Take Screenshot"/>
-            </form>
-    </div>
-        
-    <script>
-    $.ajaxSetup({
-        headers: {
+	<div class="container">
+		<div class="content">
+			<div class="title">Laravel 5</div>
+			<p class="paragraph">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, veritatis dolores dicta at atque nobis maxime ea explicabo facilis molestiae voluptatibus nam nesciunt necessitatibus placeat ducimus magni nihil pariatur eligendi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga adipisci magnam in. Earum, nihil, expedita, blanditiis, iste ipsam amet obcaecati culpa ad quod itaque esse facere veritatis ratione ipsum quis.
+			</p>
+			<p class="paragraph">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, veritatis dolores dicta at atque nobis maxime ea explicabo facilis molestiae voluptatibus nam nesciunt necessitatibus placeat ducimus magni nihil pariatur eligendi.
+			</p>
+		</div>
 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    </script>
+		<button id="saveReport">Save Report</button>
+	</div>
 
-    <script type="text/javascript">
-    $(document).ready(function(){
-     var dataurl = "";
-     $('#take_shot').click(function(){
-        $('#calendar').html2canvas({
-            onrendered: function (canvas) {
-                //Set hidden field's value to image data (base-64 string)
-                dataurl = $('#img_val').val(canvas.toDataURL("image/png"));
-            }
-        });
-        var form_data = new FormData($("#myForm")[0]);
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
-            $.ajax({
-                type:'POST',
-                url: $('meta[name="screenShot"]').attr('content'),
-                data : form_data,
-                cache: false,
-                processData: false,
-                contentType: false,
+	<script>
+		$.ajaxSetup({  
+			headers: {  
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  
+			}  
+		});
 
-                success:function(data){
-                    alert(data);
-                }
-            }); 
+		$(document).ready(function(){
 
-        return false;
-     });
-    });
-    </script>
+			var element = $('.content');
+
+			$('#saveReport').on('click', function(){
+				html2canvas(element, {
+					background: '#ffffff',
+					onrendered: function(canvas){
+						var imgData = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octect-stream");
+						$.ajax({
+							url: 'download',
+							type: 'post',
+							dataType: 'text',
+							data: {
+								base64data: imgData
+							}
+						});
+					}
+				});
+			});
+
+		});
+	</script>
 </body>
+
 </html>

@@ -52,7 +52,7 @@ class BancoController extends Controller
         $total = $amount;
 
         $n = rand(1, 9999999);
-        $transaction_id = 'UTIL-PIX-' . str_pad(str_pad($n, 7, 0, STR_PAD_LEFT), 7, "0", STR_PAD_LEFT);
+        $transaction_id = 'UTIL' . str_pad(str_pad($n, 7, 0, STR_PAD_LEFT), 7, "0", STR_PAD_LEFT);
 
         try {
             $payload = (new Payload())
@@ -61,7 +61,7 @@ class BancoController extends Controller
                 ->merchantName($request->input('recipient'))
                 ->merchantCity($request->input('city'))
                 ->amount($total)
-                ->transactionId($request->input('description'));
+                ->transactionId($transaction_id);
         } catch (InvalidPixKeyException $exception) {
             return response()->json($exception->getMessage());
         }
