@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('pixs', function (Blueprint $table) {
             //
-            $table->string('transaction_id')->after('id')->default('UTIL-MODOBANK-0000000');
+            $table->string('link_id')->after('transaction_id');
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('pixs', function (Blueprint $table) {
             //
-            $table->dropColumn('transaction_id');
+            $table->dropColumn('link_id');
         });
     }
 };

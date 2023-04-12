@@ -6,6 +6,10 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\Link;
+
 class Pix extends Model
 {
     use HasFactory, HasUuid;
@@ -28,4 +32,9 @@ class Pix extends Model
         'total',
         'qrcode_path'
     ];
+
+    public function link()
+    {
+        return $this->belongsTo(Link::class);
+    }
 }

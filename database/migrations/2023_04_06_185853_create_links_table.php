@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('short_link')->unique();
             $table->string('target_url');
-            $table->date('expire_at');
+            $table->date('expire_at')->nullable();
             $table->unsignedInteger('usage_count')->default(0);
             $table->timestamps();
         });

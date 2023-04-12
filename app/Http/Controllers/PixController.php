@@ -50,8 +50,6 @@ class PixController extends Controller
 
         $pix->qrcode_path = $qrPatch;
 
-        $pix->save();
-
         //
         $url = new Link([
             'name' => $pix->name,
@@ -59,6 +57,10 @@ class PixController extends Controller
             'short_link' => Str::random(8),
         ]);
         $url->saveOrFail();
+
+        $pix->link_id = $url->id;
+
+        $pix->save();
 
         return redirect()->route('pix.show', $pix->id);
     }

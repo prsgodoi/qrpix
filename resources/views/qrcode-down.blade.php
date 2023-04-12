@@ -44,6 +44,7 @@
 						<div class="mb-3">
 							<div class="text-center">
 								<h2>R$ {{ $pixs->total }}</h2>
+
 							</div>
 						</div>
 					</div>
@@ -58,9 +59,17 @@
 						{!! Form::textarea('pix', $pixs->pix, array('id' => 'pix', 'class' => 'form-control', 'rows' => 3, 'readonly' => 'true', 'placeholder' =>'Util Tecnologia')) !!}
 					</div>
 					<div class="mb-3">
-						<button type="submit" class="btn btn-success">
+						<button class="btn btn-success" onClick="copy('pix')">
 							<span class="tf-icons bx bx-copy-alt"></span> Copiar PIX
 						</button>
+					</div>
+					<div class="mb-3">
+						<div class="input-group">
+							<input type="text" class="form-control" id="short_link" value="{{ url('l/'.$pixs->link->short_link) }}"/>
+							<button class="btn btn-outline-primary" onClick="copy('short_link')">
+								<span class="tf-icons bx bx-copy-alt"></span> Link
+							</button>
+						</div>
 					</div>
 				</div>
 
@@ -75,6 +84,9 @@
 		</div>
 	</div>
 </div>
+
+
+
 @endsection
 
 @push('scripts')
@@ -83,12 +95,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
 <script language="javascript">
-	$(document).ready(function() {
-		$("button").click(function(){
-			$("textarea").select();
-			document.execCommand('copy');
-		});
-	});
+	//Pass the id of the <input> element to be copied as a parameter to the copy()
+	let copy = (textId) => {
+	  //Selects the text in the <input> elemet
+	  document.getElementById(textId).select();
+	  //Copies the selected text to clipboard
+	  document.execCommand("copy");
+	};
 
 	$.ajaxSetup({  
 		headers: {  
@@ -118,6 +131,8 @@
 		});
 
 	});
+
+	
 </script>
 
 @endpush
