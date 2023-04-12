@@ -15,6 +15,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use Illuminate\Support\Str;
+use App\Models\Link;
 
 class BancoController extends Controller
 {
@@ -87,6 +89,15 @@ class BancoController extends Controller
         $banco->qrcode_path = $qrPatch;
 
         $banco->transaction_id = $transaction_id;
+
+        $url = new Link([
+            'name' => $banco->name,
+            'target_url' => '/checkout/v1/payment/redirect/'.$banco->id,
+            'short_link' => Str::random(8),
+        ]);
+        $url->saveOrFail();
+
+        $banco->link_id = $url->id;
 
         $banco->save();
 
