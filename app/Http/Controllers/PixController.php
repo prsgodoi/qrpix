@@ -46,7 +46,7 @@ class PixController extends Controller
         $fileName = 'payment_qrcode_'.uniqid(time()).'.png';
         $file = public_path('qrcode/'.$fileName);
         file_put_contents($file,$qr);
-        $qrPatch = asset('qrcode/'.$fileName);
+        $qrPatch = 'qrcode/'.$fileName;
 
         $pix->qrcode_path = $qrPatch;
 
