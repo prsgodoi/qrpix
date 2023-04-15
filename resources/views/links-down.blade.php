@@ -23,7 +23,7 @@
 						<div class="mb-3">
 							<div class="text-center">
 								<div class="col-md-12 px-0">
-									<img src="{{$links->qrcode_path}}" class="img-fluid">
+									<img src="{{ url($links->qrcode_path) }}" class="img-fluid">
 								</div>
 							</div>
 						</div>

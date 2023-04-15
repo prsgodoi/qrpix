@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 use App\Models\Link;
 
+//use App\Models\Pix;
+
 class BancoController extends Controller
 {
     /**
@@ -87,19 +89,22 @@ class BancoController extends Controller
         $qrPatch = asset('qrcode/'.$fileName);
 
         $banco->qrcode_path = $qrPatch;
-
         $banco->transaction_id = $transaction_id;
+        $banco->save();
 
-        $url = new Link([
-            'name' => $banco->name,
-            'target_url' => '/checkout/v1/payment/redirect/'.$banco->id,
-            'short_link' => Str::random(8),
-        ]);
+        //
+        $url = new Link;
+        $url->name = $banco->name;
+        $url->pix_id = $banco->id;
+        $url->target_url = '/checkout/v1/payment/redirect/'.$banco->id;
+        $url->short_link = Str::random(8);
+        $url->expire_at = now()->addDays(5);
         $url->saveOrFail();
 
-        $banco->link_id = $url->id;
-
-        $banco->save();
+        //
+        Banco::where('id', $banco->id)->update([
+            'link_id' => $url->id
+        ]);
 
         return redirect()->route('pix.show', $banco->id);
     }

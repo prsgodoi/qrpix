@@ -6,6 +6,8 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Link;
+
 class Banco extends Model
 {
     use HasFactory, HasUuid;
@@ -29,4 +31,14 @@ class Banco extends Model
         'qrcode_path',
         'transaction_id'
     ];
+
+    public function link()
+    {
+        return $this->belongsTo(Link::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
+    }
 }

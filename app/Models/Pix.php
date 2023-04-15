@@ -37,4 +37,9 @@ class Pix extends Model
     {
         return $this->belongsTo(Link::class);
     }
+
+    public function pix()
+    {
+        return $this->belongsTo(Link::class, 'pix_id');
+    }
 }

@@ -58,12 +58,34 @@
 						<label for="pix" class="form-label">Pix Copia e Cola</label>
 						{!! Form::textarea('pix', $pixs->pix, array('id' => 'pix', 'class' => 'form-control', 'rows' => 3, 'readonly' => 'true', 'placeholder' =>'Util Tecnologia')) !!}
 					</div>
-					<div class="mb-3">
-						<button class="btn btn-success" onClick="copy('pix')">
-							<span class="tf-icons bx bx-copy-alt"></span> Copiar PIX
-						</button>
+					<div class="row">
+						<div class="col">
+							<div class="mb-3">
+								<button class="btn btn-success" onClick="copy('pix')">
+									<span class="tf-icons bx bx-copy-alt"></span> Copiar PIX
+								</button>
+
+							</div>
+						</div>
+						<div class="col">
+							<form action="{{ route('link.store') }}" method="post">
+								@csrf
+								{!! Form::hidden('name', $pixs->name) !!}
+								{!! Form::hidden('pix_id', $pixs->id) !!}
+								<div class="text-end">
+									<button type="submit" class="btn btn-outline-primary">Compartilhar</button>
+								</div>
+							</form>
+						</div>
 					</div>
+					<div class="divider">
+                        <div class="divider-text">
+                          <i class="bx bx bx-copy-alt"></i>
+                        </div>
+                      </div>
 					<div class="mb-3">
+						<h5>Link QR Code Pix</h5>
+						<p>Agora, compartilhe seu Link QR Code Pix como quiser.</p>
 						<div class="input-group">
 							<input type="text" class="form-control" id="short_link" value="{{ url('l/'.$pixs->link->short_link) }}"/>
 							<button class="btn btn-outline-primary" onClick="copy('short_link')">

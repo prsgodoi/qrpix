@@ -42,25 +42,30 @@ class PixController extends Controller
         $pix->pix = $request->pix;
         $pix->total = $request->total;
 
+        //
         $qr = QrCode::format('png')->size(500)->generate($pix->pix);
         $fileName = 'payment_qrcode_'.uniqid(time()).'.png';
         $file = public_path('qrcode/'.$fileName);
         file_put_contents($file,$qr);
         $qrPatch = 'qrcode/'.$fileName;
 
+        //
         $pix->qrcode_path = $qrPatch;
+        $pix->save();
 
         //
-        $url = new Link([
-            'name' => $pix->name,
-            'target_url' => '/checkout/v1/payment/redirect/'.$pix->id,
-            'short_link' => Str::random(8),
-        ]);
+        $url = new Link;
+        $url->name = $pix->name;
+        $url->pix_id = $pix->id;
+        $url->target_url = '/checkout/v1/payment/redirect/'.$pix->id;
+        $url->short_link = Str::random(8);
+        $url->expire_at = now()->addDays(5);
         $url->saveOrFail();
 
-        $pix->link_id = $url->id;
-
-        $pix->save();
+        //
+        Pix::where('id', $pix->id)->update([
+            'link_id' => $url->id
+        ]);
 
         return redirect()->route('pix.show', $pix->id);
     }

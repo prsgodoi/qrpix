@@ -9,6 +9,9 @@ use Illuminate\Support\Str;
 
 use App\Models\Pix;
 
+
+use Carbon\Carbon;
+
 class LinkController extends Controller
 {
     /**
@@ -33,6 +36,20 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         //
+        $url = new Link;
+        $url->name = $request->name;
+        $url->pix_id = $request->pix_id;
+        $url->target_url = '/checkout/v1/payment/redirect/'.$request->pix_id;
+        $url->short_link = Str::random(8);
+        $url->expire_at = now()->addDays(5);
+        $url->saveOrFail();
+
+        //
+        Pix::where('id', $request->pix_id)->update([
+            'link_id' => $url->id
+        ]);
+
+        return redirect()->route('pix.show', $request->pix_id);
     }
 
     /**
@@ -72,14 +89,19 @@ class LinkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function redirect($short_link)
+    public function redirect(string $short_link)
     {
-        $link = Link::where('short_link', $short_link)->first();
+        //
+        $link = Link::where('short_link', '=', $short_link)
+        ->where(function ($query) {
+            $query->where('expire_at', '>=', Carbon::now())
+            ->orWhere('expire_at', '=', null);
+        })->first('target_url');
 
         if (!$link) {
             abort(404);
-        } else {
-            return redirect()->away(url($link->target_url));
-        }
+        } 
+
+        return redirect($link->target_url);
     }
 }

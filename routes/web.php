@@ -46,9 +46,12 @@ Route::group([
     Route::get('qrcode/{id}',[PixController::class, 'show'])->name('show');
     Route::get('qrcode/{id}/download',[PixController::class, 'download'])->name('download');
 
+
+
 });
 
 Route::get('/l/{short_link}', [LinkController::class, 'redirect'])->name('redirect');
+Route::post('/link/compartilhar', [LinkController::class, 'store'])->name('link.store');
 
 //
 Route::get('checkout/v1/payment/redirect/{id}',[LinkController::class, 'show'])->name('show');
