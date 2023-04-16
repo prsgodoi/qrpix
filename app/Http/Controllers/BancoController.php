@@ -84,9 +84,9 @@ class BancoController extends Controller
 
         $qr = QrCode::format('png')->size(500)->generate($banco->pix);
         $fileName = 'payment_qrcode_'.uniqid(time()).'.png';
-        $file = 'qrcode/'.$fileName;
+        $file = public_path('qrcode/'.$fileName);
         file_put_contents($file,$qr);
-        $qrPatch = asset('qrcode/'.$fileName);
+        $qrPatch = 'qrcode/'.$fileName;
 
         $banco->qrcode_path = $qrPatch;
         $banco->transaction_id = $transaction_id;

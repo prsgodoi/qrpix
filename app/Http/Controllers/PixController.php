@@ -45,7 +45,7 @@ class PixController extends Controller
         //
         $qr = QrCode::format('png')->size(500)->generate($pix->pix);
         $fileName = 'payment_qrcode_'.uniqid(time()).'.png';
-        $file = 'qrcode/'.$fileName;
+        $file = public_path('qrcode/'.$fileName);
         file_put_contents($file,$qr);
         $qrPatch = 'qrcode/'.$fileName;
 
